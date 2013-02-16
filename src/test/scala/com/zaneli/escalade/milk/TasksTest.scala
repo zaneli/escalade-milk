@@ -2,6 +2,7 @@ package com.zaneli.escalade.milk
 
 import com.zaneli.escalade.milk.model.Priority
 import com.zaneli.escalade.milk.model.PriorityDirection
+import com.zaneli.escalade.milk.model.RepeatType
 import com.zaneli.escalade.milk.model.Url
 
 import org.junit.runner.RunWith
@@ -417,8 +418,11 @@ class TasksTest extends Specification with Mockito {
         task.estimate must beNone
 
         val rrule = taskseries.rrule.get
-        rrule.every must_== 1
-        rrule.value must_== "FREQ=WEEKLY;INTERVAL=1;BYDAY=TU"
+        rrule.repeatType must_== RepeatType.EVERY
+        rrule.value.size must_== 3
+        rrule.value.get("FREQ") must_== Some("WEEKLY")
+        rrule.value.get("INTERVAL") must_== Some("1")
+        rrule.value.get("BYDAY") must_== Some("TU")
 
         taskseries.tags must beEmpty
         taskseries.participants must beEmpty
@@ -1500,7 +1504,7 @@ class TasksTest extends Specification with Mockito {
           <transaction undoable="1" id="4497535029"></transaction>
           <list id="26186830">
             <taskseries location_id="" url="" source="api" name="TestTask" modified="2013-02-14T10:07:35Z" created="2013-02-13T08:21:38Z" id="188294516">
-              <rrule every="1">FREQ=WEEKLY;INTERVAL=2</rrule>
+              <rrule every="0">FREQ=DAILY;INTERVAL=5</rrule>
               <tags></tags>
               <participants></participants>
               <notes></notes>
@@ -1510,7 +1514,7 @@ class TasksTest extends Specification with Mockito {
         </rsp>
 
       val client = TestUtil.getClient(expectedResponse)
-      val transactional = client.tasks.setRecurrence(111, 222, 333, 444, Some("Every 2 week"))
+      val transactional = client.tasks.setRecurrence(111, 222, 333, 444, Some("After 5 days"))
       client.methodName must_== "rtm.tasks.setRecurrence"
 
       val taskList = transactional.result
@@ -1538,8 +1542,10 @@ class TasksTest extends Specification with Mockito {
       task.estimate must beNone
 
       val rrule = taskseries.rrule.get
-      rrule.every must_== 1
-      rrule.value must_== "FREQ=WEEKLY;INTERVAL=2"
+      rrule.repeatType must_== RepeatType.AFTER
+      rrule.value.size must_== 2
+      rrule.value.get("FREQ") must_== Some("DAILY")
+      rrule.value.get("INTERVAL") must_== Some("5")
 
       taskseries.tags must beEmpty
       taskseries.participants must beEmpty

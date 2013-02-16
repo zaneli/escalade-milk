@@ -92,23 +92,40 @@ object Task {
   }
 }
 
-case class Rrule private (every: Int, value: String) {
+case class Rrule private (repeatType: RepeatType, value: Map[String, String]) {
 
 }
 object Rrule {
+  val regex = "(.+)=(.+)".r
   def apply(node: Node): Rrule = {
-    new Rrule((node \ "@every").text.toInt, node.text)
+    new Rrule(RepeatType((node \ "@every").text.toInt), node.text.split(";").map(
+      _ match { case regex(k, v) => (k, v) }).toMap)
   }
 }
 
-case class DeletedList private (taskseriesId:Long, taskId:Long, deleted:Date) {
+sealed abstract case class RepeatType private (name:String) {
+  override def toString(): String = {
+    name
+  }
+}
+object RepeatType {
+  def apply(every: Int): RepeatType = every match {
+    case 1 => EVERY
+    case 0 => AFTER
+    case _ => throw new RtmException(-1, "Unexpected rrule [every] value: " + every)
+  }
+  object EVERY extends RepeatType("every")
+  object AFTER extends RepeatType("after")
+}
+
+case class DeletedList private (taskseriesId: Long, taskId: Long, deleted: Date) {
 
 }
 object DeletedList {
   def apply(node: Node): DeletedList = {
     new DeletedList(
-        (node \ "taskseries" \ "@id").text.toLong,
-        (node \ "taskseries" \ "task" \ "@id").text.toLong,
-        ModelUtil.parseDate((node \ "taskseries" \ "task" \ "@deleted").text).get)
+      (node \ "taskseries" \ "@id").text.toLong,
+      (node \ "taskseries" \ "task" \ "@id").text.toLong,
+      ModelUtil.parseDate((node \ "taskseries" \ "task" \ "@deleted").text).get)
   }
 }
