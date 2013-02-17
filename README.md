@@ -1,6 +1,8 @@
 #escalade-milk
 [Remember The Milk](http://www.rememberthemilk.com/ "Remember The Milk") API Scala wrapper library.
 
+[![Build Status](https://travis-ci.org/zaneli/escalade-milk.png?branch=master)](https://travis-ci.org/zaneli/escalade-milk)
+
 ##Authenticate
 - Request [API Key and Shared secret](http://www.rememberthemilk.com/services/api/keys.rtm).  
 - Get frob.  
