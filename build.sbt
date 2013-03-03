@@ -4,7 +4,7 @@ version := "0.0.1"
 
 scalaVersion := "2.9.2"
 
-organization := "zaneli"
+organization := "com.zaneli"
 
 scalacOptions ++= Seq("-unchecked", "-deprecation")
 
@@ -16,3 +16,12 @@ libraryDependencies ++= {
     "org.specs2" %% "specs2" % "1.12.3" % "test"
   )
 }
+
+publishMavenStyle := true
+
+publishArtifact in Test := false
+
+pomIncludeRepository := { _ => false }
+
+publishTo := Some(Resolver.file(
+  "file", new java.io.File(System.getProperty("repository.url", ""))))
