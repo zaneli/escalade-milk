@@ -52,3 +52,38 @@ client.transactions.undo(timeline, setNameResult.transaction.id)
 ```  
 
 More detail, read [API reference](http://www.rememberthemilk.com/services/api/methods/ "Remember The Milk API reference").
+
+
+## Maven Repository
+# pom.xml
+    <repositories>
+      <repository>
+        <id>com.zaneli</id>
+        <name>Zaneli Repository</name>
+        <url>http://www.zaneli.com/repositories/snapshots</url>
+      </repository>
+    </repositories>
+
+    <dependencies>
+      <dependency>
+        <groupId>com.zaneli</groupId>
+        <artifactId>escalade-milk_2.9.2</artifactId>
+        <version>0.0.1</version>
+      </dependency>
+    </dependencies>
+
+# build.sbt(Scala 2.9.2)
+    scalaVersion := "2.9.2"
+
+    resolvers += "Zaneli Repository" at "http://www.zaneli.com/repositories/snapshots"
+
+    libraryDependencies ++= {
+      Seq("com.zaneli" %% "escalade-milk" % "0.0.1" % "compile")
+    }
+
+# build.sbt(Other Version)
+    resolvers += "Zaneli Repository" at "http://www.zaneli.com/repositories/snapshots"
+
+    libraryDependencies ++= {
+      Seq("com.zaneli" % "escalade-milk_2.9.2" % "0.0.1" % "compile")
+    }
