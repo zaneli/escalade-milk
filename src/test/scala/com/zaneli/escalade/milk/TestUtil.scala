@@ -21,7 +21,7 @@ object TestUtil {
     }
   }
 
-  private val dateFormatter = org.joda.time.format.DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+  private[this] val dateFormatter = com.github.nscala_time.time.Imports.DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
   def toDate(dateStr: String): java.util.Date = {
     dateFormatter.parseDateTime(dateStr).toDate
   }

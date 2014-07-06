@@ -43,8 +43,9 @@ class ReflectionTest extends Specification with Mockito {
       method.needslogin must beFalse
       method.needssigning must beTrue
       method.requiredperms must_== Perms.NONE
-      method.description must_== """Returns a frob to be used during authentication.
- <b>This method call must be signed.</b>"""
+      method.description.lines.toSeq must_== Seq(
+        "Returns a frob to be used during authentication.",
+        " <b>This method call must be signed.</b>")
       method.response must_== Some(<frob>0a56717c3561e53584f292bb7081a533c197270c</frob>)
 
       method.arguments.size must_== 1
@@ -150,15 +151,16 @@ class ReflectionTest extends Specification with Mockito {
       method.needslogin must beTrue
       method.needssigning must beTrue
       method.requiredperms must_== Perms.READ
-      method.description must_== """Retrieves a list of locations.
- <b>This method call must be signed.</b>"""
-      method.response.get must ==/(
+      method.description.lines.toSeq must_== Seq(
+        "Retrieves a list of locations.",
+        " <b>This method call must be signed.</b>")
+      method.response.get must ==/("""
         <locations>
-          <location id="987654321" name="Berlin" longitude="13.411508" latitude="52.524008" zoom="9" address="Berlin, Germany" viewable="1"/>
-          <location id="987654322" name="New York" longitude="-74.00713" latitude="40.71449" zoom="9" address="New York, NY, USA" viewable="1"/>
-          <location id="987654323" name="Sydney" longitude="151.216667" latitude="-33.8833333" zoom="7" address="Sydney, New South Wales, Australia" viewable="1"/>
+          <location viewable="1" address="Berlin, Germany" zoom="9" latitude="52.524008" longitude="13.411508" name="Berlin" id="987654321"/>
+          <location viewable="1" address="New York, NY, USA" zoom="9" latitude="40.71449" longitude="-74.00713" name="New York" id="987654322"/>
+          <location viewable="1" address="Sydney, New South Wales, Australia" zoom="7" latitude="-33.8833333" longitude="151.216667" name="Sydney" id="987654323"/>
           ...
-        </locations>)
+        </locations>""")
 
       method.arguments.size must_== 1
       val argument = method.arguments(0)
@@ -266,9 +268,10 @@ class ReflectionTest extends Specification with Mockito {
       method.needslogin must beTrue
       method.needssigning must beTrue
       method.requiredperms must_== Perms.READ_WRITE
-      method.description must_== """Adds a new contact. <code>contact</code> should be a username or email address of a Remember The Milk user.
- <b>This method call must be signed.</b>
- <b>This method call requires a timeline.</b>"""
+      method.description.lines.toSeq must_== Seq(
+        "Adds a new contact. <code>contact</code> should be a username or email address of a Remember The Milk user.",
+        " <b>This method call must be signed.</b>",
+        " <b>This method call requires a timeline.</b>")
       method.response must_== Some(<contact id="1" fullname="Omar Kilani" username="omar"/>)
 
       method.arguments.size must_== 3
@@ -420,9 +423,10 @@ class ReflectionTest extends Specification with Mockito {
       method.needslogin must beTrue
       method.needssigning must beTrue
       method.requiredperms must_== Perms.ALL
-      method.description must_== """Reverts the affects of an action.
- <b>This method call must be signed.</b>
- <b>This method call requires a timeline.</b>"""
+      method.description.lines.toSeq must_== Seq(
+        "Reverts the affects of an action.",
+        " <b>This method call must be signed.</b>",
+        " <b>This method call requires a timeline.</b>")
       method.response must beNone
 
       method.arguments.size must_== 3
