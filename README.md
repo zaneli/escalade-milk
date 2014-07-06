@@ -55,35 +55,29 @@ More detail, read [API reference](http://www.rememberthemilk.com/services/api/me
 
 
 ## Maven Repository
-# pom.xml
+
+for Scala 2.10.x and Scala 2.11.x
+
+### pom.xml
     <repositories>
       <repository>
         <id>com.zaneli</id>
         <name>Zaneli Repository</name>
-        <url>http://www.zaneli.com/repositories/snapshots</url>
+        <url>http://www.zaneli.com/repositories</url>
       </repository>
     </repositories>
 
     <dependencies>
       <dependency>
         <groupId>com.zaneli</groupId>
-        <artifactId>escalade-milk_2.9.2</artifactId>
+        <artifactId>escalade-milk_2.11</artifactId>
         <version>0.0.1</version>
       </dependency>
     </dependencies>
 
-# build.sbt(Scala 2.9.2)
-    scalaVersion := "2.9.2"
-
-    resolvers += "Zaneli Repository" at "http://www.zaneli.com/repositories/snapshots"
+### build.sbt
+    resolvers += "Zaneli Repository" at "http://www.zaneli.com/repositories"
 
     libraryDependencies ++= {
       Seq("com.zaneli" %% "escalade-milk" % "0.0.1" % "compile")
-    }
-
-# build.sbt(Other Version)
-    resolvers += "Zaneli Repository" at "http://www.zaneli.com/repositories/snapshots"
-
-    libraryDependencies ++= {
-      Seq("com.zaneli" % "escalade-milk_2.9.2" % "0.0.1" % "compile")
     }
